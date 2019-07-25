@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../assest/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assest/css/style.css">
+  <title>Yeni Todo Ekle</title>
+</head>
+
+<body>
+  <div class="">
+    <div class="card pt-2 pb-2" style="width: 482px; height: 180px;">
+      <div class="card-body">
+        <h5 class="card-title">Yeni TODO</h5>
+        <input id="todoValue" type="text" class="form-control mt-3 mb-3" placeholder="Burada değişecek değer yazacak..">
+        <a href="#" class="card-link btn btn-sm btn-outline-danger" id="cancelBtn">Vazgeç</a>
+        <a href="#" class="card-link btn btn-sm btn-outline-warning" id="saveBtn">Kaydet</a>
+      </div>
+    </div>
+  </div>
+  <script>
+      const electron = require("electron");
+      const { ipcRenderer } = electron;
+      let cancelBtn = document.querySelector("#cancelBtn");
+      let saveBtn = document.querySelector("#saveBtn");
+      let todoValue = document.querySelector("#todoValue");
+     
+      cancelBtn.addEventListener("click", () => {
+        ipcRenderer.send("newTodo:close");
+      });
+
+      saveBtn.addEventListener("click", () => {
+        if(todoValue.value !=="") {
+          ipcRenderer.send("newTodo:save", {
+            ref:"window",
+            value:todoValue.value
+        });
+        }
+      });
+
+    </script>
+</body>
+</html>
